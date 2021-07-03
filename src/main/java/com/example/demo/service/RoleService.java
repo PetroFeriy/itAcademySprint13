@@ -4,13 +4,14 @@ package com.example.demo.service;
 import com.example.demo.DAO.RoleRepository;
 import com.example.demo.model.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class RoleService {
+@Service
+public class RoleService implements BaseService<Role> {
 
     private final RoleRepository roleRepository;
 

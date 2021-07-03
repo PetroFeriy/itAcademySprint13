@@ -3,39 +3,38 @@ package com.example.demo.controller;
 import com.example.demo.model.Role;
 import com.example.demo.service.RoleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/role")
 @RequiredArgsConstructor
-public class RoleController {
+@Validated
+public class RoleController implements BaseController<Role> {
 
-//    private final RoleService roleService;
-
-    private final List<Role> roles = List.of(
-            Role.builder()
-                    .id(1L)
-                    .name("Admin")
-                    .build(),
-            Role.builder()
-                    .id(2L)
-                    .name("Test")
-                    .build(),
-            Role.builder()
-                    .id(3L)
-                    .name("User")
-                    .build()
-    );
+    private final RoleService roleService;
 
     @GetMapping
-    public List<Role> getAll(){
-//        return roleService.findAll();
-        return roles;
+    public List<Role> getAll() {
+        return roleService.findAll();
     }
+
+    @GetMapping("/{id}")
+    public Role getById(@PathVariable("id") Long id) {
+        return roleService.findById(id);
+    }
+
+    @PostMapping
+    public Role create(@Valid @RequestBody Role entity) {
+        return roleService.create(entity);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        roleService.delete(id);
+    }
+
 }
